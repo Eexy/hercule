@@ -4,19 +4,30 @@ import User from '../models/user';
 const router: Router = express.Router();
 
 router.post('/api/user/register', async (req, res) => {
+  let user = null;
   try {
-    const user = new User({ ...req.body });
+    user = new User({ ...req.body });
     await user.save();
   } catch (e) {
     if (e.code === 11000) {
       return res.send({ err: 'email already exist in the database' });
     }
-    if (e.message.includes('Invalid email format')) {
-      return res.send({ err: 'Invalid email format' });
-    }
-    return res.send(e);
+
+    return res.send({ err: e.message });
   }
-  return res.send('user created');
+
+  return res.send(user);
+});
+
+router.post('/api/user/login', async (req, res) => {
+  let user = null;
+  try {
+    user = await User.findByCredentials(req.body.email, req.body.password);
+  } catch (e) {
+    return res.send({ err: e.message });
+  }
+
+  return res.send(user);
 });
 
 export default router;

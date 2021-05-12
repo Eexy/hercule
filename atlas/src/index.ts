@@ -5,7 +5,7 @@ import userRouter from './routers/user';
 import './utils/connect';
 
 const app = express();
-const PORT: number = 3000;
+const PORT = 3000;
 
 app.use(helmet());
 app.use(cors());
