@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import auth from '../middlewares/auth';
-import User from '../models/user';
+import User, { UserDocument } from '../models/user';
 import generateAuthToken from '../utils/generate-auth-token';
 
 const router: Router = express.Router();
@@ -42,6 +42,20 @@ router.post('/api/user/login', async (req, res) => {
 
 router.get('/api/user/me', auth, (req, res) => {
   res.send(req.user.toJSON());
-})
+});
+
+router.get('/api/user/:id', async (req, res) => {
+  let user: UserDocument | null = null;
+  try {
+    user = await User.findById(req.params.id);
+
+    if (!user) {
+      throw new Error('Unable to find user');
+    }
+  } catch (e) {
+    return res.send({ err: 'Unable to find user' });
+  }
+  return res.send(user);
+});
 
 export default router;
