@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -5,7 +6,7 @@ import userRouter from './routers/user';
 import './utils/connect';
 
 const app = express();
-const PORT = 3000;
+const PORT = parseInt(process.env.PORT!, 10) || 3000;
 
 app.use(helmet());
 app.use(cors());

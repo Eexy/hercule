@@ -1,33 +1,47 @@
 import express, { Router } from 'express';
+import auth from '../middlewares/auth';
 import User from '../models/user';
+import generateAuthToken from '../utils/generate-auth-token';
 
 const router: Router = express.Router();
 
 router.post('/api/user/register', async (req, res) => {
   let user = null;
+  let token = '';
+
   try {
     user = new User({ ...req.body });
+    token = generateAuthToken(user.id);
     await user.save();
   } catch (e) {
     if (e.code === 11000) {
-      return res.send({ err: 'email already exist in the database' });
+      return res.send({
+        ok: false,
+        err: 'email already exist in the database',
+      });
     }
 
-    return res.send({ err: e.message });
+    return res.send({ ok: false, err: e.message });
   }
 
-  return res.send(user);
+  return res.send({ ok: true, token });
 });
 
 router.post('/api/user/login', async (req, res) => {
   let user = null;
+  let token = '';
   try {
     user = await User.findByCredentials(req.body.email, req.body.password);
+    token = generateAuthToken(user.id);
   } catch (e) {
-    return res.send({ err: e.message });
+    return res.send({ ok: false, err: e.message });
   }
 
-  return res.send(user);
+  return res.send({ ok: true, token });
 });
+
+router.get('/api/user/me', auth, (req, res) => {
+  res.send(req.user.toJSON());
+})
 
 export default router;

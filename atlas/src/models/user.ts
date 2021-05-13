@@ -2,8 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 import bcrypt from 'bcrypt';
 
-
-interface UserDocument extends Document {
+export interface UserDocument extends Document {
   email: string;
   password: string;
 }
@@ -38,7 +37,9 @@ UserSchema.statics.findByCredentials = async (email = '', password = '') => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new Error('Unable to find user, incorrect email or user doesn\'t exist');
+    throw new Error(
+      "Unable to find user, incorrect email or user doesn't exist"
+    );
   }
 
   const match: boolean = await bcrypt.compare(password, user.password);
