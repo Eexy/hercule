@@ -58,4 +58,15 @@ router.get('/api/user/:id', async (req, res) => {
   return res.send(user);
 });
 
+router.delete('/api/user/me', auth, async (req, res) => {
+  const { user } = req;
+  try {
+    await User.findByIdAndDelete(user.id);
+  } catch (e) {
+    return res.send({ err: 'Unable to delete user' });
+  }
+
+  return res.send('User successfully deleted');
+});
+
 export default router;
