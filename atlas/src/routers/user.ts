@@ -63,7 +63,7 @@ router.patch('/api/user/me', auth, async (req, res) => {
   const allowedUpdates = ['email', 'password'];
   const updatesKeys = Object.keys(updates);
 
-  // We check that user is trying to updates the corrects fields
+  // We check that user is trying to updates corrects fields
   const isValidUpdates = updatesKeys.every((key) =>
     allowedUpdates.includes(key)
   );
