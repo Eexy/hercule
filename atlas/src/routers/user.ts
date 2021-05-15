@@ -16,7 +16,6 @@ router.post('/api/user/register', async (req, res) => {
   } catch (e) {
     if (e.code === 11000) {
       return res.send({
-        ok: false,
         err: 'email already exist in the database',
       });
     }
@@ -24,7 +23,7 @@ router.post('/api/user/register', async (req, res) => {
     return res.send({ ok: false, err: e.message });
   }
 
-  return res.send({ ok: true, token });
+  return res.send({ ok: true, user: user.toJSON(), token });
 });
 
 router.post('/api/user/login', async (req, res) => {
@@ -37,11 +36,11 @@ router.post('/api/user/login', async (req, res) => {
     return res.send({ ok: false, err: e.message });
   }
 
-  return res.send({ ok: true, token });
+  return res.send({ ok: true, user: user.toJSON(), token });
 });
 
 router.get('/api/user/me', auth, (req, res) => {
-  res.send(req.user.toJSON());
+  res.send({ ok: true, user: req.user.toJSON() });
 });
 
 router.get('/api/user/:id', async (req, res) => {
@@ -53,9 +52,37 @@ router.get('/api/user/:id', async (req, res) => {
       throw new Error('Unable to find user');
     }
   } catch (e) {
-    return res.send({ err: 'Unable to find user' });
+    return res.send({ ok: false, err: 'Unable to find user' });
   }
-  return res.send(user);
+  return res.send({ ok: true, user: user.toJSON() });
+});
+
+router.patch('/api/user/me', auth, async (req, res) => {
+  const { user } = req;
+  const updates = req.body;
+  const allowedUpdates = ['email', 'password'];
+  const updatesKeys = Object.keys(updates);
+
+  // We check that user is trying to updates the corrects fields
+  const isValidUpdates = updatesKeys.every((key) =>
+    allowedUpdates.includes(key)
+  );
+
+  if (!isValidUpdates) {
+    return res.send({ ok: false, err: 'Unauthorized updates' });
+  }
+
+  updatesKeys.forEach((key) => {
+    user[key] = updates[key];
+  });
+
+  try {
+    await user.save();
+  } catch (e) {
+    return res.send({ ok: false, err: e.message });
+  }
+
+  return res.send({ ok: true, user: user.toJSON() });
 });
 
 router.delete('/api/user/me', auth, async (req, res) => {
@@ -63,10 +90,10 @@ router.delete('/api/user/me', auth, async (req, res) => {
   try {
     await User.findByIdAndDelete(user.id);
   } catch (e) {
-    return res.send({ err: 'Unable to delete user' });
+    return res.send({ ok: false, err: 'Unable to delete user' });
   }
 
-  return res.send('User successfully deleted');
+  return res.send({ ok: true, message: 'User successfully deleted' });
 });
 
 export default router;
