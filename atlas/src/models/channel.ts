@@ -20,6 +20,12 @@ const ChannelSchema: Schema<ChannelDocument> = new Schema(
   { timestamps: true }
 );
 
+ChannelSchema.virtual('messages', {
+  ref: 'Message',
+  localField: '_id',
+  foreignField: 'channelId'
+})
+
 const Channel = mongoose.model<ChannelDocument>('Channel', ChannelSchema);
 
 export default Channel;

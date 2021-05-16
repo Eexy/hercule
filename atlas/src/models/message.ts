@@ -13,8 +13,9 @@ const MessageSchema = new Schema<MessageDocument>(
       required: true,
     },
     channelId: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'Channel',
     },
     content: {
       type: String,
