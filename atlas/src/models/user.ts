@@ -7,6 +7,7 @@ export interface UserDocument extends Document {
   password: string;
   projects: mongoose.ObjectId[];
   removeProject(projectId: string): void;
+  addProject(projectId: mongoose.ObjectId): void;
 }
 
 const UserSchema: Schema<UserDocument> = new Schema(
@@ -74,6 +75,12 @@ UserSchema.methods.toJSON = function (): UserObject {
 UserSchema.methods.removeProject = async function (projectId: string): Promise<void> {
   this.projects = this.projects.filter((project) => project.toString() !== projectId);
 
+  await this.save();
+}
+
+UserSchema.methods.addProject = async function(projectId: mongoose.ObjectId): Promise<void> {
+  this.projects.push(projectId);
+  
   await this.save();
 }
 

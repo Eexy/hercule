@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
-import auth from '../middlewares/auth';
+import mongoose from 'mongoose';
 import Project from '../models/project';
+import auth from '../middlewares/auth';
 
 const router: Router = express.Router();
 
@@ -8,11 +9,12 @@ router.post('/api/project/new', auth, async (req, res) => {
   let project = null;
   const { user } = req;
   try {
-    project = new Project({ name: req.body.name, owner: req.user.id });
-    user.projects.push(project.id);
-    await user.save();
+    project = new Project({
+      name: req.body.name,
+      owner: req.user.id,
+    });
 
-    project.contributors.push(user.id);
+    user.addProject(mongoose.Types.ObjectId(project.id));
     await project.save();
   } catch (e) {
     return res.send({ ok: false, err: 'Unable to create project' });
@@ -33,18 +35,18 @@ router.delete('/api/project/:id', auth, async (req, res) => {
 
 router.get('/api/project/:id', async (req, res) => {
   let project = null;
-  try{
+  try {
     project = await Project.findById(req.params.id);
 
-    if(!project){
+    if (!project) {
       throw new Error('Unable to find project');
     }
-  }catch(e){
-    return res.send({ok: false, err: e.message});
+  } catch (e) {
+    return res.send({ ok: false, err: e.message });
   }
 
-  return res.send({ok: true, project});
-})
+  return res.send({ ok: true, project });
+});
 
 router.post('/api/project/:id/join', auth, async (req, res) => {
   const { user } = req;
