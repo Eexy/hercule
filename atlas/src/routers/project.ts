@@ -58,19 +58,8 @@ router.post('/api/project/:id/join', auth, async (req, res) => {
       throw new Error('Unable to find project');
     }
 
-    const isContributor = project.contributors.find(
-      (contributor) => contributor.toString() === user.id
-    );
-
-    if (isContributor) {
-      throw new Error("You can't join a project you have already join");
-    }
-
-    user.projects.push(req.params.id);
-    await user.save();
-
-    project.contributors.push(user.id);
-    await project.save();
+    await project.addContributor(user.id);
+    await user.addProject(mongoose.Types.ObjectId(project.id));
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
@@ -87,11 +76,7 @@ router.post('/api/project/:id/leave', auth, async (req, res) => {
       throw new Error('Unable to find project to leave');
     }
 
-    project.contributors = project.contributors.filter(
-      (contributor) => contributor.toString() !== user.id
-    );
-
-    await project.save();
+    await project.removeContributor(user.id);
     await user.removeProject(req.params.id);
   } catch (e) {
     return res.send({ ok: false, err: e.message });

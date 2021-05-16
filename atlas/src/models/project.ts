@@ -4,9 +4,11 @@ import User from './user';
 
 interface ProjectDocument extends Document {
   name: string;
-  contributors: mongoose.ObjectId[];
-  owner: mongoose.ObjectId;
+  contributors: mongoose.Types.ObjectId[];
+  owner: mongoose.Types.ObjectId;
   channelId: mongoose.Types.ObjectId;
+  addContributor(userId: string): Promise<void>;
+  removeContributor(userId: string): Promise<void>;
 }
 
 const ProjectSchema: Schema<ProjectDocument> = new Schema(
@@ -33,19 +35,44 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
   { timestamps: true }
 );
 
-ProjectSchema.pre('save', async function(next){
-  if(this.isModified('owner')){
+ProjectSchema.pre('save', async function (next) {
+  if (this.isModified('owner')) {
     this.contributors.push(this.owner);
   }
 
-  if(this.isNew){
-    const channel = new Channel({type: 1});
+  if (this.isNew) {
+    const channel = new Channel({ type: 1 });
     this.channelId = mongoose.Types.ObjectId(channel.id);
     await channel.save();
   }
 
   next();
-})
+});
+
+ProjectSchema.methods.addContributor = async function (
+  userId: string
+): Promise<void> {
+  const isContributor = this.contributors.find(
+    (contributor) => contributor.toString() === userId
+  );
+
+  if (isContributor) {
+    throw new Error("You can't join a project you have already join");
+  }
+
+  this.contributors.push(mongoose.Types.ObjectId(userId));
+  await this.save();
+};
+
+ProjectSchema.methods.removeContributor = async function (
+  userId: string
+): Promise<void> {
+  this.contributors = this.contributors.filter(
+    (contributor) => contributor.toString() !== userId
+  );
+
+  await this.save();
+};
 
 interface ProjectModel extends Model<ProjectDocument> {
   findAndDelete(projectId: string, userId: string): void;
