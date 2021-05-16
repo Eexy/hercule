@@ -25,7 +25,15 @@ router.post('/api/project/new', auth, async (req, res) => {
 
 router.delete('/api/project/:id', auth, async (req, res) => {
   try {
-    await Project.findAndDelete(req.params.id, req.user.id);
+    const project = await Project.findOne({
+      owner: mongoose.Types.ObjectId(req.user.id),
+      _id: req.params.id,
+    });
+    if (!project) {
+      throw new Error('Unable to find project to delete');
+    }
+
+    await project.remove();
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }

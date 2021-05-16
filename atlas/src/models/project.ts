@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 import Channel from './channel';
 import User from './user';
 
@@ -49,6 +49,23 @@ ProjectSchema.pre('save', async function (next) {
   next();
 });
 
+ProjectSchema.pre('remove', async function (next) {
+  const { contributors } = this;
+  await Promise.all(
+    contributors.map(async (contributor) => {
+      const user = await User.findById(contributor.toString());
+
+      if (user) {
+        await user.removeProject(this.id);
+      }
+    })
+  );
+
+  await Channel.findByIdAndDelete(this.channelId);
+
+  next();
+});
+
 ProjectSchema.methods.addContributor = async function (
   userId: string
 ): Promise<void> {
@@ -74,38 +91,6 @@ ProjectSchema.methods.removeContributor = async function (
   await this.save();
 };
 
-interface ProjectModel extends Model<ProjectDocument> {
-  findAndDelete(projectId: string, userId: string): void;
-}
-
-ProjectSchema.statics.findAndDelete = async (projectId = '', userId = '') => {
-  // eslint-disable-next-line no-use-before-define
-  const project = await Project.findById(projectId);
-
-  if (!project) {
-    throw new Error('Unable to find project to delete');
-  }
-
-  if (project.owner.toString() !== userId) {
-    throw new Error("User isn't allowed to delete project");
-  }
-  const { contributors } = project;
-  await Promise.all(
-    contributors.map(async (contributor) => {
-      const user = await User.findById(contributor.toString());
-
-      if (user) {
-        await user.removeProject(projectId);
-      }
-    })
-  );
-
-  await project.remove();
-};
-
-const Project = mongoose.model<ProjectDocument, ProjectModel>(
-  'Project',
-  ProjectSchema
-);
+const Project = mongoose.model<ProjectDocument>('Project', ProjectSchema);
 
 export default Project;
