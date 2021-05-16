@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 interface ChannelDocument extends Document {
   recipients: mongoose.ObjectId[];
   type: number;
+  addRecipient(userId: string): void;
 }
 
 const ChannelSchema: Schema<ChannelDocument> = new Schema(

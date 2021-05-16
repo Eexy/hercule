@@ -33,8 +33,8 @@ const UserSchema: Schema<UserDocument> = new Schema(
     },
     projects: {
       type: [mongoose.Types.ObjectId],
-      default: []
-    }
+      default: [],
+    },
   },
   { timestamps: true }
 );
@@ -72,17 +72,23 @@ UserSchema.methods.toJSON = function (): UserObject {
   return userObject;
 };
 
-UserSchema.methods.removeProject = async function (projectId: string): Promise<void> {
-  this.projects = this.projects.filter((project) => project.toString() !== projectId);
+UserSchema.methods.removeProject = async function (
+  projectId: string
+): Promise<void> {
+  this.projects = this.projects.filter(
+    (project) => project.toString() !== projectId
+  );
 
   await this.save();
-}
+};
 
-UserSchema.methods.addProject = async function(projectId: mongoose.ObjectId): Promise<void> {
+UserSchema.methods.addProject = async function (
+  projectId: mongoose.ObjectId
+): Promise<void> {
   this.projects.push(projectId);
-  
+
   await this.save();
-}
+};
 
 UserSchema.pre('save', async function (next) {
   if (this.isModified('password')) {

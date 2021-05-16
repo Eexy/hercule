@@ -41,7 +41,7 @@ ProjectSchema.pre('save', async function (next) {
   }
 
   if (this.isNew) {
-    const channel = new Channel({ type: 1 });
+    const channel = new Channel({ type: 1, recipients: [this.owner] });
     this.channelId = mongoose.Types.ObjectId(channel.id);
     await channel.save();
   }
