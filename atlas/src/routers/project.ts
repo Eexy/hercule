@@ -31,6 +31,21 @@ router.delete('/api/project/:id', auth, async (req, res) => {
   return res.send({ ok: true, message: 'Project successfully deleted' });
 });
 
+router.get('/api/project/:id', async (req, res) => {
+  let project = null;
+  try{
+    project = await Project.findById(req.params.id);
+
+    if(!project){
+      throw new Error('Unable to find project');
+    }
+  }catch(e){
+    return res.send({ok: false, err: e.message});
+  }
+
+  return res.send({ok: true, project});
+})
+
 router.post('/api/project/:id/join', auth, async (req, res) => {
   const { user } = req;
   let project = null;
