@@ -15,7 +15,13 @@ const auth: RequestHandler = async (req, res, next): Promise<any> => {
   }
 
   const token: string = authorization.split(' ')[1];
-  const decoded: Payload = jwt.verify(token, process.env.JWT_KEY!) as Payload;
+  let decoded: Payload | null = null
+
+  try{
+    decoded = jwt.verify(token, process.env.JWT_KEY!) as Payload;
+  }catch(e){
+    return res.send({ok: false, err: 'invalid token'});
+  }
 
   const user = await User.findById(decoded.id);
 

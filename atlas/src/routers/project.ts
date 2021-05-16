@@ -15,7 +15,6 @@ router.post('/api/project/new', auth, async (req, res) => {
     project.contributors.push(user.id);
     await project.save();
   } catch (e) {
-    console.log(e);
     return res.send({ ok: false, err: 'Unable to create project' });
   }
 
@@ -76,11 +75,7 @@ router.post('/api/project/:id/leave', auth, async (req, res) => {
     );
 
     await project.save();
-
-    user.projects = user.projects.filter(
-      (proj: string) => proj.toString() !== project.id
-    );
-    await user.save();
+    await user.removeProject(req.params.id);
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
