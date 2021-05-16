@@ -17,11 +17,11 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
     contributors: {
       type: [mongoose.Types.ObjectId],
       required: true,
+      default: []
     },
     owner: {
       type: mongoose.Types.ObjectId,
       required: true,
-      unique: true,
     },
   },
   { timestamps: true }

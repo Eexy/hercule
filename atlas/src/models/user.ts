@@ -1,10 +1,11 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, LeanDocument } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 import bcrypt from 'bcrypt';
 
 export interface UserDocument extends Document {
   email: string;
   password: string;
+  projects: mongoose.ObjectId[];
 }
 
 const UserSchema: Schema<UserDocument> = new Schema(
@@ -28,6 +29,10 @@ const UserSchema: Schema<UserDocument> = new Schema(
       required: true,
       trim: true,
     },
+    projects: {
+      type: [mongoose.Types.ObjectId],
+      default: []
+    }
   },
   { timestamps: true }
 );
@@ -54,6 +59,7 @@ UserSchema.statics.findByCredentials = async (email = '', password = '') => {
 interface UserObject {
   email: string;
   password?: string;
+  projects: LeanDocument<mongoose.ObjectId>[];
 }
 
 UserSchema.methods.toJSON = function (): UserObject {

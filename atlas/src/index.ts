@@ -1,9 +1,10 @@
 import 'dotenv/config';
+import './utils/connect';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routers/user';
-import './utils/connect';
+import projectRouter from './routers/project';
 
 const app = express();
 const PORT = parseInt(process.env.PORT!, 10) || 3000;
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(userRouter);
+app.use(projectRouter);
 
 app.get('/', (_, res) => {
   res.send('Hello World');
