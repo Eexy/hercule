@@ -11,7 +11,7 @@ const auth: RequestHandler = async (req, res, next): Promise<any> => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    return res.send({err: 'User is not connected'});
+    return res.send({ok: false, err: 'User is not connected'});
   }
 
   const token: string = authorization.split(' ')[1];
@@ -20,7 +20,7 @@ const auth: RequestHandler = async (req, res, next): Promise<any> => {
   const user = await User.findById(decoded.id);
 
   if (!user) {
-    return res.send({err: 'User is not connected'});
+    return res.send({ok: false, err: 'User is not connected'});
   }
 
   req.user = user;

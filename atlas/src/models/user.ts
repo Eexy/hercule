@@ -6,6 +6,7 @@ export interface UserDocument extends Document {
   email: string;
   password: string;
   projects: mongoose.ObjectId[];
+  removeProject(projectId: string): void;
 }
 
 const UserSchema: Schema<UserDocument> = new Schema(
@@ -69,6 +70,12 @@ UserSchema.methods.toJSON = function (): UserObject {
 
   return userObject;
 };
+
+UserSchema.methods.removeProject = async function (projectId: string): Promise<void> {
+  this.projects = this.projects.filter((project) => project.toString() !== projectId);
+
+  await this.save();
+}
 
 UserSchema.pre('save', async function (next) {
   if (this.isModified('password')) {

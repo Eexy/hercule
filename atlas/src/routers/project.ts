@@ -23,18 +23,12 @@ router.post('/api/project/new', auth, async (req, res) => {
 });
 
 router.delete('/api/project/:id', auth, async (req, res) => {
-  let project = null;
   try {
-    project = await Project.findById(req.params.id);
-
-    if (project?.owner !== req.user.id) {
-      throw new Error('You are not allowed to delete the project');
-    }
+    await Project.findAndDelete(req.params.id, req.user.id);
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
 
-  await project?.remove();
   return res.send({ ok: true, message: 'Project successfully deleted' });
 });
 
@@ -80,7 +74,7 @@ router.post('/api/project/:id/leave', auth, async (req, res) => {
     project.contributors = project.contributors.filter(
       (contributor) => contributor.toString() !== user.id
     );
-    
+
     await project.save();
 
     user.projects = user.projects.filter(
