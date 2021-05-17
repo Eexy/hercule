@@ -5,20 +5,22 @@ interface AuthFormProps {
 }
 
 const LoginForm: React.FC<AuthFormProps> = ({ login }): ReactElement => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginFields, setLoginFields] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>): void => {
-    setPassword(e.currentTarget.value);
-  };
-
-  const handleEmailChange = (e: React.FormEvent<HTMLInputElement>): void => {
-    setEmail(e.currentTarget.value);
-  };
+  const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    const {id, value} = e.currentTarget;
+    setLoginFields(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  }
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    login(email, password);
+    login(loginFields.email, loginFields.password);
   };
 
   return (
@@ -29,9 +31,9 @@ const LoginForm: React.FC<AuthFormProps> = ({ login }): ReactElement => {
           <input
             type="email"
             name="email"
-            id="user-email"
-            value={email}
-            onChange={handleEmailChange}
+            id="email"
+            value={loginFields.email}
+            onChange={handleChange}
           />
         </label>
       </p>
@@ -41,8 +43,9 @@ const LoginForm: React.FC<AuthFormProps> = ({ login }): ReactElement => {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={handlePasswordChange}
+            name="password"
+            value={loginFields.password}
+            onChange={handleChange}
           />
         </label>
       </p>

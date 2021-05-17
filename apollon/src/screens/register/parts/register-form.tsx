@@ -5,20 +5,22 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ register }): ReactElement => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [registrationFields, setRegistrationFields] = useState({
+    email: '',
+    password: ''
+  });
 
-  const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>): void => {
-    setPassword(e.currentTarget.value);
-  };
-
-  const handleEmailChange = (e: React.FormEvent<HTMLInputElement>): void => {
-    setEmail(e.currentTarget.value);
-  };
+  const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    const {id, value} = e.currentTarget;
+    setRegistrationFields(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  }
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    register(email, password);
+    register(registrationFields.email, registrationFields.password);
   };
 
   return (
@@ -29,9 +31,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ register }): ReactElement =
           <input
             type="email"
             name="email"
-            id="user-email"
-            value={email}
-            onChange={handleEmailChange}
+            id="email"
+            value={registrationFields.email}
+            onChange={handleChange}
           />
         </label>
       </p>
@@ -41,8 +43,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ register }): ReactElement =
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={handlePasswordChange}
+            name="password"
+            value={registrationFields.password}
+            onChange={handleChange}
           />
         </label>
       </p>
