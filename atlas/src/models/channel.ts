@@ -1,8 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
+import {MessageDocument} from './message';
 
 interface ChannelDocument extends Document {
-  recipients: mongoose.ObjectId[];
+  recipients: mongoose.Types.ObjectId[];
   type: number;
+  messages: MessageDocument[];
   addRecipient(userId: string): void;
 }
 
@@ -23,8 +25,8 @@ const ChannelSchema: Schema<ChannelDocument> = new Schema(
 ChannelSchema.virtual('messages', {
   ref: 'Message',
   localField: '_id',
-  foreignField: 'channelId'
-})
+  foreignField: 'channelId',
+});
 
 const Channel = mongoose.model<ChannelDocument>('Channel', ChannelSchema);
 

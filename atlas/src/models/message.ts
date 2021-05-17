@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-interface MessageDocument extends Document {
+export interface MessageDocument extends Document {
   senderId: mongoose.Types.ObjectId;
   channelId: mongoose.Types.ObjectId;
   content: string;
