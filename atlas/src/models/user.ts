@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model, LeanDocument } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 import bcrypt from 'bcrypt';
 
@@ -36,7 +36,16 @@ const UserSchema: Schema<UserDocument> = new Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        const json = ret;
+        delete json.password;
+        return json;
+      }
+    }
+  }
 );
 
 UserSchema.statics.findByCredentials = async (email = '', password = '') => {
@@ -56,20 +65,6 @@ UserSchema.statics.findByCredentials = async (email = '', password = '') => {
   }
 
   return user;
-};
-
-interface UserObject {
-  email: string;
-  password?: string;
-  projects: LeanDocument<mongoose.ObjectId>[];
-}
-
-UserSchema.methods.toJSON = function (): UserObject {
-  const userObject: UserObject = this.toObject();
-
-  delete userObject.password;
-
-  return userObject;
 };
 
 UserSchema.methods.removeProject = async function (
