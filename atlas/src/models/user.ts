@@ -36,15 +36,16 @@ const UserSchema: Schema<UserDocument> = new Schema(
       default: [],
     },
   },
-  { timestamps: true,
+  {
+    timestamps: true,
     toJSON: {
       virtuals: true,
       transform: (_, ret) => {
         const json = ret;
         delete json.password;
         return json;
-      }
-    }
+      },
+    },
   }
 );
 
