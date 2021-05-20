@@ -5,15 +5,17 @@ import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routers/user';
 import projectRouter from './routers/project';
-import channelRouter  from './routers/channel';
+import channelRouter from './routers/channel';
 
 const app = express();
 const PORT = parseInt(process.env.PORT!, 10) || 3000;
 
 app.use(helmet());
-app.use(cors({
-  origin: ["http://localhost:3000"]
-}));
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+  })
+);
 app.use(express.urlencoded());
 app.use(express.json());
 app.use(userRouter);
