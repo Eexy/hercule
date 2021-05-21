@@ -6,6 +6,8 @@ interface ProjectDocument extends Document {
   contributors: string[];
   owner: string;
   channelId: mongoose.Types.ObjectId;
+  githubId: string;
+  githubUrl: string;
   addContributor(userId: string): Promise<void>;
   removeContributor(userId: string): Promise<void>;
 }
@@ -23,6 +25,14 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
       required: true,
       default: [],
     },
+    githubId:{
+      type: String,
+      required: true,
+    },
+    githubUrl: {
+      type: String,
+      required: true,
+    },
     channelId: {
       type: mongoose.Types.ObjectId,
     },
@@ -31,7 +41,12 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
 );
 
 ProjectSchema.pre('save', async function (next) {

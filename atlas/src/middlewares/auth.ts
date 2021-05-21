@@ -18,6 +18,7 @@ const auth: RequestHandler = async (req, res, next): Promise<any> => {
     }
 
     req.user = user;
+    req.oauthToken = token;
     return next();
   } catch (e) {
     return res.send({ ok: false, err: 'invalid token' });

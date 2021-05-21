@@ -1,14 +1,19 @@
 import express, { Router } from 'express';
 import Project from '../models/project';
 import auth from '../middlewares/auth';
+import createRepo from '../utils/create-repo';
 
 const router: Router = express.Router();
 
 router.post('/api/project/new', auth, async (req, res) => {
   try {
+    const {id, url} = await createRepo(req.oauthToken!, req.body.name);
+
     const project = new Project({
       name: req.body.name,
       owner: req.user.node_id,
+      githubId: id,
+      githubUrl: url
     });
 
     await project.save();
