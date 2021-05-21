@@ -39,7 +39,7 @@ const GithubBtn: React.FC<GithubBtnProps> = ({ getAuth }): ReactElement => {
   return (
     <button type="button" className="github-btn">
       <a
-        href={`https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`}
+        href={`https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user%20repo`}
       >
         Login with Github
       </a>
