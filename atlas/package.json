@@ -37,6 +37,7 @@
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
+    "http-proxy-middleware": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.8",
     "validator": "^13.6.0"
