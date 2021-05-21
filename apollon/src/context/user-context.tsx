@@ -24,11 +24,6 @@ interface UserProviderProps {
   children: React.ReactNode;
 }
 
-interface IProject {
-  id: string;
-  owner: string;
-  contributors: string[];
-}
 
 interface IUserState {
   token: string;

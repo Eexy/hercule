@@ -20,3 +20,7 @@ code {
 .screen{
   height: 100%;
 }
+
+button{
+  cursor: pointer;
+}
