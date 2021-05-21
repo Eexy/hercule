@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import Message, { MessageDocument } from './message';
 
 interface ChannelDocument extends Document {
-  recipients: mongoose.Types.ObjectId[];
+  recipients: string[];
   type: number;
   messages: MessageDocument[];
   addRecipient(userId: string): void;
@@ -15,7 +15,7 @@ const ChannelSchema: Schema<ChannelDocument> = new Schema(
       required: true,
     },
     recipients: {
-      type: [mongoose.Types.ObjectId],
+      type: [String],
       default: [],
     },
   },

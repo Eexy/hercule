@@ -1,11 +1,5 @@
 import { RequestHandler } from 'express';
-import jwt from 'jsonwebtoken';
-import User from '../models/user';
-
-interface Payload {
-  id: string;
-  date: number;
-}
+import getUser from '../utils/get-user';
 
 const auth: RequestHandler = async (req, res, next): Promise<any> => {
   const { authorization } = req.headers;
@@ -15,22 +9,19 @@ const auth: RequestHandler = async (req, res, next): Promise<any> => {
   }
 
   const token: string = authorization.split(' ')[1];
-  let decoded: Payload | null = null;
 
   try {
-    decoded = jwt.verify(token, process.env.JWT_KEY!) as Payload;
+    const user = await getUser(token);
+
+    if (!user) {
+      return res.send({ ok: false, err: 'User is not connected' });
+    }
+
+    req.user = user;
+    return next();
   } catch (e) {
     return res.send({ ok: false, err: 'invalid token' });
   }
-
-  const user = await User.findById(decoded.id);
-
-  if (!user) {
-    return res.send({ ok: false, err: 'User is not connected' });
-  }
-
-  req.user = user;
-  return next();
 };
 
 export default auth;

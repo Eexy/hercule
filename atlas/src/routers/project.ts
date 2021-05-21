@@ -1,32 +1,27 @@
 import express, { Router } from 'express';
-import mongoose from 'mongoose';
 import Project from '../models/project';
 import auth from '../middlewares/auth';
 
 const router: Router = express.Router();
 
 router.post('/api/project/new', auth, async (req, res) => {
-  let project = null;
-  const { user } = req;
   try {
-    project = new Project({
+    const project = new Project({
       name: req.body.name,
-      owner: req.user.id,
+      owner: req.user.node_id,
     });
 
-    user.addProject(mongoose.Types.ObjectId(project.id));
     await project.save();
+    return res.send({ ok: true, project });
   } catch (e) {
-    return res.send({ ok: false, err: 'Unable to create project' });
+    return res.send({ ok: false, err: e.message });
   }
-
-  return res.send({ ok: true, project });
 });
 
 router.delete('/api/project/:id', auth, async (req, res) => {
   try {
     const project = await Project.findOne({
-      owner: mongoose.Types.ObjectId(req.user.id),
+      owner: req.user.node_id,
       _id: req.params.id,
     });
     if (!project) {
@@ -34,49 +29,41 @@ router.delete('/api/project/:id', auth, async (req, res) => {
     }
 
     await project.remove();
+    return res.send({ ok: true, message: 'Project successfully deleted' });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
-
-  return res.send({ ok: true, message: 'Project successfully deleted' });
 });
 
 router.get('/api/project/:id', async (req, res) => {
-  let project = null;
   try {
-    project = await Project.findById(req.params.id);
+    const project = await Project.findById(req.params.id);
 
     if (!project) {
       throw new Error('Unable to find project');
     }
+    return res.send({ ok: true, project });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
-
-  return res.send({ ok: true, project });
 });
 
 router.post('/api/project/:id/join', auth, async (req, res) => {
-  const { user } = req;
-  let project = null;
   try {
-    project = await Project.findById(req.params.id);
+    const project = await Project.findById(req.params.id);
 
     if (!project) {
       throw new Error('Unable to find project');
     }
 
-    await project.addContributor(user.id);
-    await user.addProject(mongoose.Types.ObjectId(project.id));
+    await project.addContributor(req.user.node_id);
+    return res.send({ ok: true, project });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
-
-  return res.send({ ok: true, project });
 });
 
 router.post('/api/project/:id/leave', auth, async (req, res) => {
-  const { user } = req;
   try {
     const project = await Project.findById(req.params.id);
 
@@ -84,13 +71,11 @@ router.post('/api/project/:id/leave', auth, async (req, res) => {
       throw new Error('Unable to find project to leave');
     }
 
-    await project.removeContributor(user.id);
-    await user.removeProject(req.params.id);
+    await project.removeContributor(req.user.node_id);
+    return res.send({ ok: true });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
-
-  return res.send({ ok: true, user: user.toJSON() });
 });
 
 export default router;

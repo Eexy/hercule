@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface MessageDocument extends Document {
-  senderId: mongoose.Types.ObjectId;
+  senderId: string;
   channelId: mongoose.Types.ObjectId;
   content: string;
 }
@@ -9,7 +9,7 @@ export interface MessageDocument extends Document {
 const MessageSchema = new Schema<MessageDocument>(
   {
     senderId: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       required: true,
     },
     channelId: {

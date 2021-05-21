@@ -1,11 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import Channel from './channel';
-import User from './user';
 
 interface ProjectDocument extends Document {
   name: string;
-  contributors: mongoose.Types.ObjectId[];
-  owner: mongoose.Types.ObjectId;
+  contributors: string[];
+  owner: string;
   channelId: mongoose.Types.ObjectId;
   addContributor(userId: string): Promise<void>;
   removeContributor(userId: string): Promise<void>;
@@ -20,7 +19,7 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
       trim: true,
     },
     contributors: {
-      type: [mongoose.Types.ObjectId],
+      type: [String],
       required: true,
       default: [],
     },
@@ -28,7 +27,7 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
       type: mongoose.Types.ObjectId,
     },
     owner: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       required: true,
     },
   },
@@ -50,17 +49,6 @@ ProjectSchema.pre('save', async function (next) {
 });
 
 ProjectSchema.pre('remove', async function (next) {
-  const { contributors } = this;
-  await Promise.all(
-    contributors.map(async (contributor) => {
-      const user = await User.findById(contributor.toString());
-
-      if (user) {
-        await user.removeProject(this.id);
-      }
-    })
-  );
-
   await Channel.findByIdAndDelete(this.channelId);
 
   next();
@@ -70,14 +58,14 @@ ProjectSchema.methods.addContributor = async function (
   userId: string
 ): Promise<void> {
   const isContributor = this.contributors.find(
-    (contributor) => contributor.toString() === userId
+    (contributor: string) => contributor === userId
   );
 
   if (isContributor) {
     throw new Error("You can't join a project you have already join");
   }
 
-  this.contributors.push(mongoose.Types.ObjectId(userId));
+  this.contributors.push(userId);
   await this.save();
 };
 
@@ -85,7 +73,7 @@ ProjectSchema.methods.removeContributor = async function (
   userId: string
 ): Promise<void> {
   this.contributors = this.contributors.filter(
-    (contributor) => contributor.toString() !== userId
+    (contributor: string) => contributor !== userId
   );
 
   await this.save();
