@@ -12,7 +12,7 @@ const Login: React.FC = (): ReactElement => {
   }
 
   const getAuth = (data: any) => {
-    setUser({token: data.token, user: data.user});
+    setUser({token: data.token, user: data.user, projects: data.projects});
     history.push('/');
   };
 

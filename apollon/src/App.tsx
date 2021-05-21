@@ -3,10 +3,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import UserProvider from './context/user-context';
 import Home from './screens/home/home';
 import Login from './screens/login/login';
+import './app.css';
 
 function App(): ReactElement {
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <UserProvider>
           <Switch>
