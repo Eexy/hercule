@@ -1,5 +1,6 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import DashboardSidebar from '../../../../components/dashboard-sidebar/dashboard-sidebar';
+import ProjectChat from '../../../../components/project-chat/project-chat';
 import { ProjectContext } from '../../../../context/project-context';
 import getUser from '../../../../utils/get-user';
 import './dashboard.css';
@@ -24,6 +25,7 @@ const Dashboard: React.FC = (): ReactElement => {
       {project.id === '' ? null : (
         <DashboardSidebar contributors={contributors} />
       )}
+      <ProjectChat />
     </div>
   );
 };

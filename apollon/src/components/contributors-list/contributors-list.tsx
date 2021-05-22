@@ -14,7 +14,7 @@ const ContributorsList: React.FC<ContributorsListProps> = ({
     </h3>
     <ul className="contributors-list" style={{ margin: 0, padding: 0 }}>
       {contributors.map((contributor: User) => (
-        <User user={contributor} />
+        <User key={contributor.id} user={contributor} />
       ))}
     </ul>
   </section>
