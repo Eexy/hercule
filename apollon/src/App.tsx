@@ -4,6 +4,7 @@ import UserProvider from './context/user-context';
 import Home from './screens/home/home';
 import Login from './screens/login/login';
 import './app.css';
+import 'antd/dist/antd.css'
 
 function App(): ReactElement {
   return (

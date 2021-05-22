@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext } from 'react';
 import { UserContext } from '../../context/user-context';
-import ProjectIcon from '../project-icon/project-icon';
+import ProjectBtn from '../project-btn/project-btn';
 import './project-list.css';
 
 const ProjectsList: React.FC = (): ReactElement => {
@@ -9,7 +9,7 @@ const ProjectsList: React.FC = (): ReactElement => {
   return (
     <ul className="project-list">
       {
-        user.projects.map((project: IProject) => <ProjectIcon key={project.id} project={project} />)
+        user.projects.map((project: IProject) => <ProjectBtn key={project.id} project={project} />)
       }
     </ul>
   );

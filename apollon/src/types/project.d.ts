@@ -4,3 +4,7 @@ interface IProject {
   contributors: string[];
   name: string;
 }
+
+interface ProjectForm {
+  name: string;
+}

@@ -1,35 +1,17 @@
-import axios from 'axios';
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { UserContext } from '../../context/user-context';
 import Sidebar from './parts/sidebar/sidebar';
 import './home.css';
+import NewProjectModal from '../../components/new-project-modal/new-project-modal';
 
 const Home: React.FC = (): ReactElement => {
   const { user } = useContext(UserContext);
+  const [isModalVisible, setIsModaleVisible] = useState(false);
 
   if (user.token === '') {
     return <Redirect to="/login" />;
   }
-
-  const handleClick = async () => {
-    try {
-      const res = await axios.post(
-        '/api/project/new',
-        {
-          name: 'test project',
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const showUser = () => {
     console.log(user);
@@ -37,15 +19,13 @@ const Home: React.FC = (): ReactElement => {
 
   return (
     <div className="home screen">
-      <Sidebar />
+      <Sidebar showModal={setIsModaleVisible} isModalVisible={isModalVisible}/>
       <main>
-        <button type="button" onClick={handleClick}>
-          Create new project
-        </button>
         <button type="button" onClick={showUser}>
           Show user
         </button>
       </main>
+      <NewProjectModal isModalVisible={isModalVisible} setIsModalVisible={setIsModaleVisible}/>
     </div>
   );
 };
