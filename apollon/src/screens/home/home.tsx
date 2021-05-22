@@ -5,6 +5,7 @@ import { ProjectContext } from '../../context/project-context';
 import Sidebar from './parts/sidebar/sidebar';
 import NewProjectModal from '../../components/new-project-modal/new-project-modal';
 import './home.css';
+import Dashboard from './parts/dashboard/dashboard';
 
 const Home: React.FC = (): ReactElement => {
   const { project } = useContext(ProjectContext);
@@ -15,17 +16,11 @@ const Home: React.FC = (): ReactElement => {
     return <Redirect to="/login" />;
   }
 
-  const showUser = () => {
-    console.log(project);
-  };
-
   return (
     <div className="home screen">
       <Sidebar showModal={setIsModaleVisible} isModalVisible={isModalVisible} />
-      <main style={{ flex: 1, padding: '0.8rem', background: '#373a43' }}>
-        <button type="button" onClick={showUser}>
-          Show user
-        </button>
+      <main style={{ flex: 1, background: '#373a43' }}>
+        <Dashboard />
       </main>
       <NewProjectModal
         isModalVisible={isModalVisible}
