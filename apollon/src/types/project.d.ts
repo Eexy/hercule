@@ -3,6 +3,7 @@ interface IProject {
   owner: string;
   contributors: string[];
   name: string;
+  channelId: string;
 }
 
 interface ProjectForm {

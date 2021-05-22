@@ -1,21 +1,11 @@
-.sidebar{
-  border-right: 1px solid black;
+.sidebar {
   padding: 0.8rem;
+  background: #2d3037;
 }
 
-.sidebar__btn{
-  height: 45px;
-  width: 45px;
-  border: 1px solid black;
-  border-radius: 50%;
+.sidebar__btn {
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: 0;
-}
-
-.sidebar__btn:hover{
-  background: blue;
-  color: white;
 }

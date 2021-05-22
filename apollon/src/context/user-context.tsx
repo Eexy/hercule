@@ -16,7 +16,7 @@ export const UserContext = createContext<IUserContext>({
     projects: [],
   },
   setUser: () => {
-    // doSomething
+    // update user
   },
 });
 

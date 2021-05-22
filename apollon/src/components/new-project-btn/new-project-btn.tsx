@@ -1,29 +1,28 @@
-import React, { ReactElement, useContext } from 'react';
-import { UserContext } from '../../context/user-context';
-import createProject from '../../utils/create-project';
+import { Button } from 'antd';
+import React, { ReactElement } from 'react';
+import { PlusOutlined } from '@ant-design/icons';
 
-interface NewProjectBtn{
+interface NewProjectBtn {
   isModalVisible: boolean;
   showModal(visible: boolean): void;
 }
 
-const NewProjectBtn: React.FC<NewProjectBtn> = ({isModalVisible, showModal}): ReactElement => {
-  const {user, setUser} = useContext(UserContext);
-
+const NewProjectBtn: React.FC<NewProjectBtn> = ({
+  isModalVisible,
+  showModal,
+}): ReactElement => {
   const handleClick = async () => {
-    /* const project = await createProject('friendly-potato', user.token);
-    setUser(prevState => ({
-      token: prevState.token,
-      user: prevState.user,
-      projects: [...prevState.projects, project]
-    })); */
     showModal(!isModalVisible);
   };
-  
+
   return (
-    <button type="button" className="sidebar__btn" onClick={handleClick}>
-      <span className="sidebar__btn__first-letter">+</span>
-    </button>
+    <Button
+      className="sidebar__btn"
+      style={{height: 45, width: 45}}
+      type="primary"
+      onClick={handleClick}
+      icon={<PlusOutlined />}
+    />
   );
 };
 
