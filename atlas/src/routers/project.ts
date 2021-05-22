@@ -11,7 +11,7 @@ router.post('/api/project/new', auth, async (req, res) => {
 
     const project = new Project({
       name: req.body.name,
-      owner: req.user.node_id,
+      owner: req.user.id,
       githubId: id,
       githubUrl: url
     });
@@ -26,7 +26,7 @@ router.post('/api/project/new', auth, async (req, res) => {
 router.delete('/api/project/:id', auth, async (req, res) => {
   try {
     const project = await Project.findOne({
-      owner: req.user.node_id,
+      owner: req.user.id,
       _id: req.params.id,
     });
     if (!project) {
@@ -61,7 +61,7 @@ router.post('/api/project/:id/join', auth, async (req, res) => {
       throw new Error('Unable to find project');
     }
 
-    await project.addContributor(req.user.node_id);
+    await project.addContributor(req.user.id);
     return res.send({ ok: true, project });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
@@ -76,7 +76,7 @@ router.post('/api/project/:id/leave', auth, async (req, res) => {
       throw new Error('Unable to find project to leave');
     }
 
-    await project.removeContributor(req.user.node_id);
+    await project.removeContributor(req.user.id);
     return res.send({ ok: true });
   } catch (e) {
     return res.send({ ok: false, err: e.message });

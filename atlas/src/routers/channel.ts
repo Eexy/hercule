@@ -23,19 +23,18 @@ router.get('/api/channel/:id/messages', auth, channelAuth, async (req, res) => {
 
 router.post('/api/channel/:id/message', auth, channelAuth, async (req, res) => {
   const { channel, user } = req;
-  let message = null;
   try {
-    message = new Message({
+    const message = new Message({
       senderId: user.id,
       channelId: channel.id,
       content: req.body.message,
     });
     await message.save();
+    return res.send({ ok: true, message });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
 
-  return res.send({ ok: true, message });
 });
 
 export default router;

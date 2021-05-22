@@ -22,7 +22,11 @@ const MessageSchema = new Schema<MessageDocument>(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true,
+    toJSON: {
+      virtuals: true
+    }
+  }
 );
 
 const Message = mongoose.model<MessageDocument>('Message', MessageSchema);

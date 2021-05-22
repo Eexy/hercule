@@ -15,7 +15,7 @@ const channelAuth: RequestHandler = async (req, res, next): Promise<any> => {
 
   const { user } = req;
   const isRecipient = channel.recipients.find(
-    (recipient) => recipient.toString() === user.id
+    (recipient) => recipient.toString() === user.id.toString()
   );
 
   if (!isRecipient) {
