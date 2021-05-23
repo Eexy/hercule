@@ -3,10 +3,12 @@ import React, { ReactElement } from 'react';
 
 interface NewProjectFormProps {
   getFormFields(newProject: ProjectForm): void;
+  showJoin(): void;
 }
 
 const NewProjectForm: React.FC<NewProjectFormProps> = ({
   getFormFields,
+  showJoin,
 }): ReactElement => {
   const handleFinish = (data: ProjectForm) => {
     getFormFields(data);
@@ -25,6 +27,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
         <Input />
       </Form.Item>
       <Form.Item>
+        <Button htmlType="button" onClick={showJoin}>Join Project</Button>
         <Button type="primary" htmlType="submit">
           Create Project
         </Button>

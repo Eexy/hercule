@@ -1,5 +1,6 @@
 import { Button } from 'antd';
-import React, { ReactElement, useContext} from 'react';
+import React, { ReactElement, useContext } from 'react';
+import { ClientContext } from '../../context/client-context';
 import { ProjectContext } from '../../context/project-context';
 import randomColor from '../../utils/random-color';
 
@@ -8,11 +9,13 @@ interface ProjectIconProps {
 }
 
 const ProjectBtn: React.FC<ProjectIconProps> = ({ project }): ReactElement => {
-  const {setProject} = useContext(ProjectContext);
+  const { setProject } = useContext(ProjectContext);
+  const { client } = useContext(ClientContext);
   const background: string = randomColor();
 
   const handleClick = () => {
-    setProject({...project});
+    setProject({ ...project });
+    client.emit('join room', { room: project.channelId });
   };
 
   return (

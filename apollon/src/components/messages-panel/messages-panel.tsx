@@ -5,10 +5,12 @@ import { UserContext } from '../../context/user-context';
 import { ProjectContext } from '../../context/project-context';
 import MessagesList from '../messages-list/messages-list';
 import MessageForm from '../message-form/message-form';
+import { ClientContext } from '../../context/client-context';
 
 const MessagesPanel: React.FC = (): ReactElement => {
   const { user } = useContext(UserContext);
   const { project } = useContext(ProjectContext);
+  const { client } = useContext(ClientContext);
   const [messages, setMessages] = useState<IChat[]>([]);
 
   const getChat = async () => {
@@ -21,11 +23,12 @@ const MessagesPanel: React.FC = (): ReactElement => {
           },
         }
       );
-      setMessages(data.messages);
+      setMessages([...data.messages]);
     } catch (e) {
       console.log(e);
     }
   };
+  client.on('new message', () => getChat());
 
   useEffect(() => {
     if (project.id !== '') {
@@ -47,6 +50,9 @@ const MessagesPanel: React.FC = (): ReactElement => {
         }
       );
       setMessages([...messages, data.message]);
+      client.emit('new message', {
+        to: project.channelId,
+      });
     } catch (e) {
       console.log(e);
     }

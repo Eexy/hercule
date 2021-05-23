@@ -5,6 +5,7 @@ import Home from './screens/home/home';
 import Login from './screens/login/login';
 import 'antd/dist/antd.css';
 import ProjectProvider from './context/project-context';
+import ClientProvider from './context/client-context';
 
 function App(): ReactElement {
   return (
@@ -12,10 +13,12 @@ function App(): ReactElement {
       <Router>
         <UserProvider>
           <ProjectProvider>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
-            </Switch>
+            <ClientProvider>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
+              </Switch>
+            </ClientProvider>
           </ProjectProvider>
         </UserProvider>
       </Router>

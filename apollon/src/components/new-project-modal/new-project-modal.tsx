@@ -2,6 +2,8 @@ import { Modal } from 'antd';
 import React, { ReactElement, useContext, useState } from 'react';
 import { UserContext } from '../../context/user-context';
 import createProject from '../../utils/create-project';
+import joinProject from '../../utils/join-project';
+import JoinProjectForm from '../join-project-form/join-project-form';
 import NewProjectForm from '../new-project-form/new-project-form';
 
 interface NewProjectModalProps {
@@ -15,6 +17,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
 }): ReactElement => {
   const { user, setUser } = useContext(UserContext);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [isJoinVisible, setIsJoinVisible] = useState(false);
 
   const newProject = async (name: string) => {
     try {
@@ -34,6 +37,21 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
     newProject(project.name);
   };
 
+  const joinProjectField = async (id: string) => {
+    setIsJoinVisible(false);
+    const project = await joinProject(user.token, id);
+    setUser((prevState) => ({
+      token: prevState.token,
+      user: prevState.user,
+      projects: [...prevState.projects, project],
+    }));
+  };
+
+  const showJoin = () => {
+    setIsModalVisible(false);
+    setIsJoinVisible(true);
+  };
+
   return (
     <>
       <Modal
@@ -44,7 +62,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
         destroyOnClose
         onCancel={() => setIsModalVisible(false)}
       >
-        <NewProjectForm getFormFields={getFormFields} />
+        <NewProjectForm getFormFields={getFormFields} showJoin={showJoin} />
       </Modal>
       <Modal
         className="error-modal"
@@ -54,6 +72,16 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
         onOk={() => setIsErrorVisible(false)}
       >
         <p>Unable to create project. Please try again</p>
+      </Modal>
+      <Modal
+        className="join-project-modal"
+        title="Join project"
+        visible={isJoinVisible}
+        onCancel={() => setIsJoinVisible(false)}
+        destroyOnClose
+        footer={null}
+      >
+        <JoinProjectForm joinProjectField={joinProjectField} showModal={setIsJoinVisible} />
       </Modal>
     </>
   );
