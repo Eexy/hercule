@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRouter from './routers/user';
 import projectRouter from './routers/project';
 import channelRouter from './routers/channel';
+import './io';
 
 const app = express();
 const PORT = parseInt(process.env.PORT!, 10) || 3000;

@@ -25,7 +25,7 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
       required: true,
       default: [],
     },
-    githubId:{
+    githubId: {
       type: String,
       required: true,
     },
@@ -81,6 +81,15 @@ ProjectSchema.methods.addContributor = async function (
   }
 
   this.contributors.push(userId);
+
+  const channel = await Channel.findById(this.channelId);
+
+  if (!channel) {
+    throw new Error("Unnable to join project's channel");
+  }
+
+  channel.recipients.push(userId);
+  await channel.save();
   await this.save();
 };
 
