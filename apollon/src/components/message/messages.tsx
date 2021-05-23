@@ -3,11 +3,11 @@ import { Col, Image, Row } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import getUser from '../../utils/get-user';
 
-interface ChatProps {
+interface Message {
   chat: IChat;
 }
 
-const Chat: React.FC<ChatProps> = ({ chat }): ReactElement | null => {
+const Message: React.FC<Message> = ({ chat }): ReactElement | null => {
   const [user, setUser] = useState<User | null>(null);
 
 
@@ -46,4 +46,4 @@ const Chat: React.FC<ChatProps> = ({ chat }): ReactElement | null => {
   );
 };
 
-export default Chat;
+export default Message;

@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import DashboardSidebar from '../../../../components/dashboard-sidebar/dashboard-sidebar';
-import ProjectChat from '../../../../components/project-chat/project-chat';
+import MessagesPanel from '../../../../components/messages-panel/messages-panel';
 import { ProjectContext } from '../../../../context/project-context';
 import getUser from '../../../../utils/get-user';
 import './dashboard.css';
@@ -10,9 +10,9 @@ const Dashboard: React.FC = (): ReactElement => {
   const [contributors, setContributors] = useState<User[]>([]);
 
   const getContributors = async () => {
-    const newConstributors: User[] = await Promise.all(project.contributors.map((contributor: string) => 
-      getUser(contributor)
-    ));
+    const newConstributors: User[] = await Promise.all(
+      project.contributors.map((contributor: string) => getUser(contributor))
+    );
     setContributors([...newConstributors]);
   };
 
@@ -25,7 +25,7 @@ const Dashboard: React.FC = (): ReactElement => {
       {project.id === '' ? null : (
         <DashboardSidebar contributors={contributors} />
       )}
-      <ProjectChat />
+      <MessagesPanel />
     </div>
   );
 };
