@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const joinProject = async (token: string, id: string): Promise<any> => {
+const joinProject = async (
+  token: string,
+  id: string
+): Promise<Project | null> => {
   try {
-    const { data } = await axios.post(
+    const { data }: ProjectResponse = await axios.post(
       `/api/project/${id}/join`,
       {},
       {
@@ -11,10 +14,14 @@ const joinProject = async (token: string, id: string): Promise<any> => {
         },
       }
     );
+
+    if (data.err) {
+      throw new Error(data.err);
+    }
     const { project } = data;
     return project;
   } catch (e) {
-    return e;
+    return null;
   }
 };
 

@@ -38,11 +38,14 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
   const joinProjectField = async (id: string) => {
     setIsJoinVisible(false);
     const project = await joinProject(user.token, id);
-    setUser((prevState) => ({
-      token: prevState.token,
-      user: prevState.user,
-      projects: [...prevState.projects, project],
-    }));
+
+    if (project) {
+      setUser((prevState) => ({
+        token: prevState.token,
+        user: prevState.user,
+        projects: [...prevState.projects, project],
+      }));
+    }
   };
 
   const showJoin = () => {
