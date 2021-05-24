@@ -4,7 +4,7 @@ interface IUserContext {
   user: {
     token: string;
     user: any;
-    projects: IProject[];
+    projects: Project[];
   };
   setUser: React.Dispatch<React.SetStateAction<IUserState>>;
 }
@@ -24,11 +24,10 @@ interface UserProviderProps {
   children: React.ReactNode;
 }
 
-
 interface IUserState {
   token: string;
   user: any;
-  projects: IProject[];
+  projects: Project[];
 }
 
 const UserProvider: React.FC<UserProviderProps> = ({

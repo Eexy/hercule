@@ -1,21 +1,31 @@
 import Title from 'antd/lib/typography/Title';
-import { Button, Col, Row, Space } from 'antd';
+import { Button, Col, Menu, Row, Space } from 'antd';
 import React, { ReactElement, useContext, useState } from 'react';
-import { ShareAltOutlined } from '@ant-design/icons';
-import { ProjectContext } from '../context/project-context';
+import {
+  BranchesOutlined,
+  MessageOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons';
+import { ProjectContext } from '../../../../../context/project-context';
 import ContributorsList from './contributors-list';
-import ProjectAvatar from './shared-components/project-avatar';
+import ProjectAvatar from '../../../../../components/shared-components/project-avatar';
 import ShareModal from './share-modal';
 
 interface DashboardSidebarProps {
+  setPanel(panel: string): void;
   contributors: User[];
 }
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   contributors,
+  setPanel,
 }): ReactElement => {
   const { project } = useContext(ProjectContext);
   const [isModalVisible, showModal] = useState(false);
+
+  const handleMenuClick = (e: any) => {
+    setPanel(e.key);
+  };
 
   return (
     <div
@@ -46,6 +56,18 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             </Col>
           </Row>
         </div>
+        <Menu
+          style={{ border: 0 }}
+          onClick={handleMenuClick}
+          defaultSelectedKeys={['messages']}
+        >
+          <Menu.Item key="messages" icon={<MessageOutlined />}>
+            Messages
+          </Menu.Item>
+          <Menu.Item key="commit" icon={<BranchesOutlined />}>
+            Commit
+          </Menu.Item>
+        </Menu>
         <ContributorsList contributors={contributors} />
       </Space>
       <ShareModal isVisible={isModalVisible} showModal={showModal} />

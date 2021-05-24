@@ -1,6 +1,6 @@
 import { Modal, Input } from 'antd';
 import React, { ReactElement, useContext } from 'react';
-import { ProjectContext } from '../context/project-context';
+import { ProjectContext } from '../../../../../context/project-context';
 
 interface ShareModalPros {
   isVisible: boolean;

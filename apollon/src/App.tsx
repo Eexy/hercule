@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import UserProvider from './context/user-context';
-import Login from './screens/login';
+import Login from './screens/login/login';
 import 'antd/dist/antd.css';
 import ProjectProvider from './context/project-context';
 import ClientProvider from './context/client-context';
-import Home from './screens/home';
+import Home from './screens/home/home';
 
 function App(): ReactElement {
   return (

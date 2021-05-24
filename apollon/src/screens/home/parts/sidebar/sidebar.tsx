@@ -1,7 +1,7 @@
 import { Space } from 'antd';
 import React, { ReactElement } from 'react';
-import NewProjectBtn from './new-project-btn';
-import ProjectsList from './project-list';
+import NewProjectBtn from './add-project/new-project-btn';
+import ProjectsList from '../../../../components/project-list';
 
 interface SidebarProps {
   isModalVisible: boolean;

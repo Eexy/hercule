@@ -14,4 +14,10 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    createProxyMiddleware('/repos', {
+      target: 'https://api.github.com',
+      changeOrigin: true,
+    })
+  );
 };

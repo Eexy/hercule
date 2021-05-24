@@ -1,8 +1,8 @@
 import { Modal } from 'antd';
 import React, { ReactElement, useContext, useState } from 'react';
-import { UserContext } from '../context/user-context';
-import createProject from '../utils/create-project';
-import joinProject from '../utils/join-project';
+import { UserContext } from '../../../../../context/user-context';
+import createProject from '../../../../../services/create-project';
+import joinProject from '../../../../../services/join-project';
 import JoinProjectForm from './join-project-form';
 import NewProjectForm from './new-project-form';
 
@@ -20,15 +20,13 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
   const [isJoinVisible, setIsJoinVisible] = useState(false);
 
   const newProject = async (name: string) => {
-    try {
-      const project = await createProject(name, user.token);
+    const project = await createProject(name, user.token);
+    if (project) {
       setUser((prevState) => ({
         token: prevState.token,
         user: prevState.user,
         projects: [...prevState.projects, project],
       }));
-    } catch (e) {
-      setIsErrorVisible(true);
     }
   };
 

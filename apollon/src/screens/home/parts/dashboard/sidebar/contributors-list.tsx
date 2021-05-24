@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import User from './shared-components/user';
+import User from '../../../../../components/shared-components/user';
 
 interface ContributorsListProps {
   contributors: User[];

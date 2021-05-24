@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const createProject = async (name: string, token: string): Promise<any> => {
+const createProject = async (
+  name: string,
+  token: string
+): Promise<Project | null> => {
   try {
-    const { data } = await axios.post(
+    const { data }: ProjectResponse = await axios.post(
       '/api/project/new',
       {
         name,
@@ -13,10 +16,15 @@ const createProject = async (name: string, token: string): Promise<any> => {
         },
       }
     );
+
+    if (data.err) {
+      throw new Error(data.err);
+    }
+
     const { project } = data;
     return project;
   } catch (e) {
-    return e;
+    return null;
   }
 };
 

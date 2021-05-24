@@ -7,7 +7,7 @@ const ProjectsList: React.FC = (): ReactElement => {
 
   return (
     <div className="project-list">
-      {user.projects.map((project: IProject) => (
+      {user.projects.map((project: Project) => (
         <ProjectBtn key={project.id} project={project} />
       ))}
     </div>

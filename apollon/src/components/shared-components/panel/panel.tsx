@@ -18,7 +18,9 @@ const Panel: React.FC<PanelProps> = ({ children, title }): ReactElement => (
     }}
   >
     {title ? <PanelHeader title={title} /> : null}
-    {children}
+    <div className="panel__content" style={{ padding: 8, flex: 1 }}>
+      {children}
+    </div>
   </div>
 );
 

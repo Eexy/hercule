@@ -1,14 +1,16 @@
 import React, { createContext, ReactElement, useState } from 'react';
 
 interface IProjectContext {
-  project: IProject;
-  setProject: React.Dispatch<React.SetStateAction<IProjectState>>;
+  project: Project;
+  setProject: React.Dispatch<React.SetStateAction<Project>>;
 }
 
 export const ProjectContext = createContext<IProjectContext>({
   project: {
     id: '',
     owner: '',
+    ownerName: '',
+    repoName: '',
     channelId: '',
     contributors: [],
     name: '',
@@ -22,30 +24,24 @@ interface ProjectProviderProps {
   children: React.ReactNode;
 }
 
-interface IProjectState {
-  id: string;
-  owner: string;
-  contributors: string[];
-  name: string;
-  channelId: string;
-}
-
 const ProjectProvider: React.FC<ProjectProviderProps> = ({
   children,
 }): ReactElement => {
-  const [project, setProject] = useState<IProjectState>({
+  const [project, setProject] = useState<Project>({
     id: '',
     owner: '',
+    ownerName: '',
+    repoName: '',
     channelId: '',
     contributors: [],
     name: '',
   });
 
   return (
-    <ProjectContext.Provider value={{project: {...project}, setProject}}>
+    <ProjectContext.Provider value={{ project: { ...project }, setProject }}>
       {children}
     </ProjectContext.Provider>
-  )
+  );
 };
 
 export default ProjectProvider;

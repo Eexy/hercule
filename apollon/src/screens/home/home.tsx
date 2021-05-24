@@ -1,11 +1,11 @@
 import React, { ReactElement, useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Col, Row } from 'antd';
-import Sidebar from '../components/sidebar';
-import { UserContext } from '../context/user-context';
-import Dashboard from '../components/dashboard';
-import NewProjectModal from '../components/new-project-modal';
-import Screen from '../components/shared-components/screen';
+import Sidebar from './parts/sidebar/sidebar';
+import { UserContext } from '../../context/user-context';
+import Dashboard from './parts/dashboard/dashboard';
+import NewProjectModal from './parts/sidebar/add-project/new-project-modal';
+import Screen from '../../components/shared-components/screen';
 
 const Home: React.FC = (): ReactElement => {
   const { user } = useContext(UserContext);

@@ -5,7 +5,7 @@ import { ProjectContext } from '../context/project-context';
 import randomColor from '../utils/random-color';
 
 interface ProjectIconProps {
-  project: IProject;
+  project: Project;
 }
 
 const ProjectBtn: React.FC<ProjectIconProps> = ({ project }): ReactElement => {
