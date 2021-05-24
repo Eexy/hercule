@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import Message from '../message/messages';
+import Message from './messages';
 
 interface MessagesListProps {
   messages: IChat[];

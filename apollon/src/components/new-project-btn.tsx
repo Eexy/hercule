@@ -18,9 +18,9 @@ const NewProjectBtn: React.FC<NewProjectBtn> = ({
   return (
     <Button
       className="sidebar__btn"
-      style={{height: 45, width: 45}}
-      type="primary"
       onClick={handleClick}
+      style={{ height: 45, width: 45 }}
+      type="primary"
       icon={<PlusOutlined />}
     />
   );

@@ -1,11 +1,12 @@
 import React, { ReactElement, useContext, useState, useEffect } from 'react';
+import { Space } from 'antd';
 import axios from 'axios';
-import Panel from '../panel/panel';
-import { UserContext } from '../../context/user-context';
-import { ProjectContext } from '../../context/project-context';
-import MessagesList from '../messages-list/messages-list';
-import MessageForm from '../message-form/message-form';
-import { ClientContext } from '../../context/client-context';
+import { UserContext } from '../context/user-context';
+import { ProjectContext } from '../context/project-context';
+import MessagesList from './messages-list';
+import MessageForm from './message-form';
+import { ClientContext } from '../context/client-context';
+import Panel from './shared-components/panel/panel';
 
 const MessagesPanel: React.FC = (): ReactElement => {
   const { user } = useContext(UserContext);

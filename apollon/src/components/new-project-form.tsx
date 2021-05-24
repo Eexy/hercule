@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Space } from 'antd';
 import React, { ReactElement } from 'react';
 
 interface NewProjectFormProps {
@@ -27,10 +27,14 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="button" onClick={showJoin}>Join Project</Button>
-        <Button type="primary" htmlType="submit">
-          Create Project
-        </Button>
+        <Space>
+          <Button htmlType="button" onClick={showJoin}>
+            Join Project
+          </Button>
+          <Button type="primary" htmlType="submit">
+            Create Project
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );

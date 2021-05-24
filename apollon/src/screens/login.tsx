@@ -1,8 +1,8 @@
 import React, { ReactElement, useContext } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
-import GithubBtn from '../../components/github-btn/github-btn';
-import { ClientContext } from '../../context/client-context';
-import { UserContext } from '../../context/user-context';
+import GithubBtn from '../components/github-btn';
+import { ClientContext } from '../context/client-context';
+import { UserContext } from '../context/user-context';
 
 const Login: React.FC = (): ReactElement => {
   const { user, setUser } = useContext(UserContext);

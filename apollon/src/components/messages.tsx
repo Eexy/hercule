@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Col, Image, Row } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
-import getUser from '../../utils/get-user';
+import getUser from '../utils/get-user';
 
 interface Message {
   chat: IChat;
@@ -9,7 +9,6 @@ interface Message {
 
 const Message: React.FC<Message> = ({ chat }): ReactElement | null => {
   const [user, setUser] = useState<User | null>(null);
-
 
   useEffect(() => {
     (async () => {
@@ -20,7 +19,7 @@ const Message: React.FC<Message> = ({ chat }): ReactElement | null => {
         console.log(e);
       }
     })();
-  }, [user])
+  }, [user]);
 
   if (user === null) {
     return null;

@@ -1,10 +1,10 @@
 import { Modal } from 'antd';
 import React, { ReactElement, useContext, useState } from 'react';
-import { UserContext } from '../../context/user-context';
-import createProject from '../../utils/create-project';
-import joinProject from '../../utils/join-project';
-import JoinProjectForm from '../join-project-form/join-project-form';
-import NewProjectForm from '../new-project-form/new-project-form';
+import { UserContext } from '../context/user-context';
+import createProject from '../utils/create-project';
+import joinProject from '../utils/join-project';
+import JoinProjectForm from './join-project-form';
+import NewProjectForm from './new-project-form';
 
 interface NewProjectModalProps {
   isModalVisible: boolean;
@@ -81,7 +81,10 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
         destroyOnClose
         footer={null}
       >
-        <JoinProjectForm joinProjectField={joinProjectField} showModal={setIsJoinVisible} />
+        <JoinProjectForm
+          joinProjectField={joinProjectField}
+          showModal={setIsJoinVisible}
+        />
       </Modal>
     </>
   );
