@@ -12,10 +12,10 @@ interface ProjectResponse {
   data: {
     ok: boolean;
     project: Project;
-    err ?: string
+    err?: string;
   };
 }
 
-interface ProjectForm {
+interface NewProjectForm {
   name: string;
 }

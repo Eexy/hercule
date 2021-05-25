@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import PanelHeader from './components/panel-header';
+import PanelHeader from './panel-header';
 
 interface PanelProps {
   children: React.ReactNode;

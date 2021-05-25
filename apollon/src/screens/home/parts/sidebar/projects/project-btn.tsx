@@ -1,8 +1,8 @@
 import { Button } from 'antd';
 import React, { ReactElement, useContext } from 'react';
-import { ClientContext } from '../context/client-context';
-import { ProjectContext } from '../context/project-context';
-import randomColor from '../utils/random-color';
+import { ClientContext } from '../../../../../context/client-context';
+import { ProjectContext } from '../../../../../context/project-context';
+import randomColor from '../../../../../utils/random-color';
 
 interface ProjectIconProps {
   project: Project;

@@ -20,16 +20,9 @@ const Login: React.FC = (): ReactElement => {
     history.push('/');
   };
 
-  const showSocket = () => {
-    console.log(client);
-  };
-
   return (
     <div className="login">
       <GithubBtn getAuth={getAuth} />
-      <button type="button" onClick={showSocket}>
-        Show Socket
-      </button>
     </div>
   );
 };

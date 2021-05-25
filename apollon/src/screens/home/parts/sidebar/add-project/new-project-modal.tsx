@@ -30,7 +30,7 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
     }
   };
 
-  const getFormFields = (project: ProjectForm) => {
+  const getFormFields = (project: NewProjectForm) => {
     setIsModalVisible(false);
     newProject(project.name);
   };

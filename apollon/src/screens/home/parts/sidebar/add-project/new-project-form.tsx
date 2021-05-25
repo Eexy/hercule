@@ -2,7 +2,7 @@ import { Button, Form, Input, Space } from 'antd';
 import React, { ReactElement } from 'react';
 
 interface NewProjectFormProps {
-  getFormFields(newProject: ProjectForm): void;
+  getFormFields(newProject: NewProjectForm): void;
   showJoin(): void;
 }
 
@@ -10,7 +10,7 @@ const NewProjectForm: React.FC<NewProjectFormProps> = ({
   getFormFields,
   showJoin,
 }): ReactElement => {
-  const handleFinish = (data: ProjectForm) => {
+  const handleFinish = (data: NewProjectForm) => {
     getFormFields(data);
   };
 
