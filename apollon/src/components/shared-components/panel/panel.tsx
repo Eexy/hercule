@@ -18,7 +18,16 @@ const Panel: React.FC<PanelProps> = ({ children, title }): ReactElement => (
     }}
   >
     {title ? <PanelHeader title={title} /> : null}
-    <div className="panel__content" style={{ padding: 8, flex: 1 }}>
+    <div
+      className="panel__content"
+      style={{
+        padding: 8,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'auto',
+      }}
+    >
       {children}
     </div>
   </div>

@@ -1,13 +1,22 @@
-interface Message{
+interface Message {
   id: string;
   content: string;
   channelId: string;
-  senderId: string;
+  user: User;
 }
 
-interface MessagesResponse{
-  data : {
+interface MessageResponse {
+  data: {
+    ok: boolean;
+    message: Message;
+    err?: string;
+  };
+}
+
+interface MessagesResponse {
+  data: {
     ok: boolean;
     messages: Message[];
-  }
+    err?: string;
+  };
 }

@@ -1,10 +1,12 @@
 import React, { ReactElement, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import Panel from '../../../../../components/shared-components/panel/panel';
 import { UserContext } from '../../../../../context/user-context';
 import { ProjectContext } from '../../../../../context/project-context';
 import { ClientContext } from '../../../../../context/client-context';
 import getMessages from '../../../../../services/get-messages';
+import postMessage from '../../../../../services/new-message';
+import Messages from './messages';
+import MessageForm from './message-form';
 
 const MessagesPanel: React.FC = (): ReactElement => {
   const { user } = useContext(UserContext);
@@ -19,7 +21,11 @@ const MessagesPanel: React.FC = (): ReactElement => {
       setMessages(newMessages);
     }
   };
-  client.on('new message', () => loadMessages());
+
+  client.on('new message', (message: any) => {
+    const newMessages = [...messages, message.message];
+    setMessages(newMessages);
+  });
 
   useEffect(() => {
     if (project.id !== '') {
@@ -27,25 +33,19 @@ const MessagesPanel: React.FC = (): ReactElement => {
     }
   }, [project]);
 
-  const newMessage = async (message: string) => {
-    try {
-      const { data } = await axios.post(
-        `/api/channel/${project.channelId}/message`,
-        {
-          message,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-      setMessages([...messages, data.message]);
+  const handleNewMessage = async (message: string) => {
+    const newMessage = await postMessage(
+      message,
+      project.channelId,
+      user.token
+    );
+    if (newMessage) {
+      setMessages([...messages, newMessage]);
+
       client.emit('new message', {
         to: project.channelId,
+        message: newMessage,
       });
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -59,8 +59,8 @@ const MessagesPanel: React.FC = (): ReactElement => {
           flexDirection: 'column',
         }}
       >
-        {/* <MessagesList messages={messages} /> */}
-        {/* <MessageForm newMessage={newMessage} /> */}
+        <Messages messages={messages} />
+        <MessageForm newMessage={handleNewMessage} />
       </div>
     </Panel>
   );

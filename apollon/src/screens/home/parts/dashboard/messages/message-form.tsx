@@ -13,7 +13,7 @@ const MessageForm: React.FC<MessageFormProps> = ({
   };
 
   return (
-    <div className="chat-form" style={{ marginTop: 'auto' }}>
+    <div className="chat-form">
       <Form layout="inline" onFinish={handleFinish} style={{ width: '100%' }}>
         <Row style={{ width: '100%' }}>
           <Form.Item
