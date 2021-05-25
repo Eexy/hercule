@@ -16,13 +16,13 @@ const io = new Server(httpServer, {
 });
 
 io.on('connection', (socket: Socket) => {
-  socket.on('new message', ({to}) => {
-    socket.to(to).emit('new message');
+  socket.on('new message', ({ to, message }) => {
+    socket.to(to).emit('new message', { message });
   });
 
-  socket.on('join room', ({room}) => {
+  socket.on('join room', ({ room }) => {
     socket.join(room);
-  })
+  });
 });
 
 httpServer.listen(5000, () => {

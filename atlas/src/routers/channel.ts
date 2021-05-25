@@ -28,13 +28,17 @@ router.post('/api/channel/:id/message', auth, channelAuth, async (req, res) => {
       senderId: user.id,
       channelId: channel.id,
       content: req.body.message,
+      user: {
+        id: user.id,
+        name: user.login,
+        avatar: user.avatar_url,
+      },
     });
     await message.save();
     return res.send({ ok: true, message });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
-
 });
 
 export default router;

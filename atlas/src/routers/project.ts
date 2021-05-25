@@ -7,13 +7,18 @@ const router: Router = express.Router();
 
 router.post('/api/project/new', auth, async (req, res) => {
   try {
-    const {id, url} = await createRepo(req.oauthToken!, req.body.name);
+    const { id, url, repoName, ownerName } = await createRepo(
+      req.oauthToken!,
+      req.body.name
+    );
 
     const project = new Project({
       name: req.body.name,
       owner: req.user.id,
+      repoName,
+      ownerName,
       githubId: id,
-      githubUrl: url
+      githubUrl: url,
     });
 
     await project.save();

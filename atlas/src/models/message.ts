@@ -1,16 +1,21 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface MessageDocument extends Document {
-  senderId: string;
+  user: {
+    name: string;
+    id: string;
+    avatar: string;
+  };
   channelId: mongoose.Types.ObjectId;
   content: string;
 }
 
 const MessageSchema = new Schema<MessageDocument>(
   {
-    senderId: {
-      type: String,
-      required: true,
+    user: {
+      name: String,
+      id: String,
+      avatar: String,
     },
     channelId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -22,10 +27,11 @@ const MessageSchema = new Schema<MessageDocument>(
       required: true,
     },
   },
-  { timestamps: true,
+  {
+    timestamps: true,
     toJSON: {
-      virtuals: true
-    }
+      virtuals: true,
+    },
   }
 );
 

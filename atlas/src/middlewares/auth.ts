@@ -14,7 +14,7 @@ const auth: RequestHandler = async (req, res, next): Promise<any> => {
     const user = await getUser(token);
 
     if (!user) {
-      return res.send({ ok: false, err: 'User is not connected' });
+      return res.send({ ok: false, err: "User doesn't exist" });
     }
 
     req.user = user;

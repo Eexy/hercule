@@ -8,6 +8,8 @@ interface ProjectDocument extends Document {
   channelId: mongoose.Types.ObjectId;
   githubId: string;
   githubUrl: string;
+  repoName: string;
+  ownerName: string;
   addContributor(userId: string): Promise<void>;
   removeContributor(userId: string): Promise<void>;
 }
@@ -26,6 +28,14 @@ const ProjectSchema: Schema<ProjectDocument> = new Schema(
       default: [],
     },
     githubId: {
+      type: String,
+      required: true,
+    },
+    repoName: {
+      type: String,
+      required: true,
+    },
+    ownerName: {
       type: String,
       required: true,
     },
