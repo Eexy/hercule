@@ -16,7 +16,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     className="sidebar"
     style={{ padding: 12, height: '100%', borderRight: '1px solid #f0f0f0' }}
   >
-    <Space direction="vertical" size="middle">
+    <Space
+      direction="vertical"
+      size="middle"
+    >
       <NewProjectBtn isModalVisible={isModalVisible} showModal={showModal} />
       <ProjectsList />
     </Space>

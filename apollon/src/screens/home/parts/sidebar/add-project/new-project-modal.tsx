@@ -1,4 +1,5 @@
 import { Modal } from 'antd';
+import { ipcRenderer } from 'electron';
 import React, { ReactElement, useContext, useState } from 'react';
 import { UserContext } from '../../../../../context/user-context';
 import createProject from '../../../../../services/create-project';
@@ -27,6 +28,12 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
         user: prevState.user,
         projects: [...prevState.projects, project],
       }));
+      const result = await ipcRenderer.invoke(
+        'new project',
+        project.repoName,
+        project.githubUrl
+      );
+      console.log(result);
     }
   };
 

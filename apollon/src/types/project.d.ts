@@ -6,6 +6,7 @@ interface Project {
   contributors: string[];
   name: string;
   channelId: string;
+  githubUrl: string;
 }
 
 interface ProjectResponse {

@@ -6,7 +6,7 @@ interface MessagesProps {
 }
 
 const Messages: React.FC<MessagesProps> = ({ messages }): ReactElement => (
-  <div className="messages" style={{ flex: 1, overflow: 'auto' }}>
+  <div className="messages" style={{ flex: 1, overflow: 'auto', marginBottom: 16 }}>
     {messages.map((message) => (
       <Message key={message.id} message={message} />
     ))}

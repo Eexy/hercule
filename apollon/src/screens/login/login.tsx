@@ -1,4 +1,5 @@
 import React, { ReactElement, useContext } from 'react';
+import { ipcRenderer } from 'electron';
 import Title from 'antd/lib/typography/Title';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Col, Image, Row } from 'antd';

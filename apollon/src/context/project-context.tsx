@@ -14,6 +14,7 @@ export const ProjectContext = createContext<IProjectContext>({
     channelId: '',
     contributors: [],
     name: '',
+    githubUrl: '',
   },
   setProject: () => {
     // update project
@@ -35,6 +36,7 @@ const ProjectProvider: React.FC<ProjectProviderProps> = ({
     channelId: '',
     contributors: [],
     name: '',
+    githubUrl: '',
   });
 
   return (

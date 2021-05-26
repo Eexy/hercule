@@ -1,4 +1,5 @@
 import React, { ReactElement, useContext, useState, useEffect } from 'react';
+import { Space } from 'antd';
 import Panel from '../../../../../components/panel/panel';
 import { UserContext } from '../../../../../context/user-context';
 import { ProjectContext } from '../../../../../context/project-context';
