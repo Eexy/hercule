@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Comment } from 'antd';
-import UserAvatar from '../../../../../components/shared-components/user-avatar';
+import UserAvatar from '../../../../../components/user-avatar';
 
 interface CommitProps {
   commit: Commit;

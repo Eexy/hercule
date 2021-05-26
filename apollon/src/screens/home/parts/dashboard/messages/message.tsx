@@ -1,6 +1,6 @@
 import { Comment } from 'antd';
 import React, { ReactElement } from 'react';
-import UserAvatar from '../../../../../components/shared-components/user-avatar';
+import UserAvatar from '../../../../../components/user-avatar';
 
 interface MessageProps {
   message: Message;

@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { ProjectContext } from '../../../../../context/project-context';
 import ContributorsList from './contributors-list';
-import ProjectAvatar from '../../../../../components/shared-components/project-avatar';
+import ProjectAvatar from '../../../../../components/project-avatar';
 import ShareModal from './share-modal';
 
 interface DashboardSidebarProps {

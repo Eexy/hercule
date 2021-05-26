@@ -1,6 +1,8 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { Button } from 'antd';
+import { GithubOutlined } from '@ant-design/icons';
 
 const auth = async (code: string): Promise<any> => {
   try {
@@ -37,13 +39,18 @@ const GithubBtn: React.FC<GithubBtnProps> = ({ getAuth }): ReactElement => {
   }, []);
 
   return (
-    <button type="button" className="github-btn">
+    <Button
+      type="primary"
+      icon={<GithubOutlined />}
+      style={{ backgroundColor: '#141414', alignSelf: 'start' }}
+    >
       <a
+        style={{ paddingLeft: 8, color: 'white' }}
         href={`https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user%20repo`}
       >
         Login with Github
       </a>
-    </button>
+    </Button>
   );
 };
 

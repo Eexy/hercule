@@ -2,7 +2,7 @@ import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import DashboardSidebar from './sidebar/dashboard-sidebar';
 import { ProjectContext } from '../../../../context/project-context';
-import Screen from '../../../../components/shared-components/screen';
+import Screen from '../../../../components/screen';
 import CommitsPanel from './commits/commits-panel';
 import MessagesPanel from './messages/messages-panel';
 import getUsers from '../../../../services/get-users';

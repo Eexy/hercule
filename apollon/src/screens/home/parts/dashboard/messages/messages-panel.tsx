@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, useState, useEffect } from 'react';
-import Panel from '../../../../../components/shared-components/panel/panel';
+import Panel from '../../../../../components/panel/panel';
 import { UserContext } from '../../../../../context/user-context';
 import { ProjectContext } from '../../../../../context/project-context';
 import { ClientContext } from '../../../../../context/client-context';
