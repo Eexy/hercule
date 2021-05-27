@@ -3,6 +3,7 @@ import { Button, Col, Menu, Row, Space } from 'antd';
 import React, { ReactElement, useContext, useState } from 'react';
 import {
   BranchesOutlined,
+  DeleteOutlined,
   MessageOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons';
@@ -10,6 +11,8 @@ import { ProjectContext } from '../../../../../context/project-context';
 import ContributorsList from './contributors-list';
 import ProjectAvatar from '../../../../../components/project-avatar';
 import ShareModal from './share-modal';
+import deleteProject from '../../../../../services/delete-project';
+import { UserContext } from '../../../../../context/user-context';
 
 interface DashboardSidebarProps {
   setPanel(panel: string): void;
@@ -20,11 +23,33 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   contributors,
   setPanel,
 }): ReactElement => {
-  const { project } = useContext(ProjectContext);
+  const { user, setUser } = useContext(UserContext);
+  const { project, setProject } = useContext(ProjectContext);
   const [isModalVisible, showModal] = useState(false);
 
   const handleMenuClick = (e: any) => {
     setPanel(e.key);
+  };
+
+  const HandleDeleteClick = async () => {
+    const id = await deleteProject(project.id, user.token);
+    setProject({
+      id: '',
+      owner: '',
+      ownerName: '',
+      repoName: '',
+      channelId: '',
+      contributors: [],
+      name: '',
+      githubUrl: '',
+    });
+
+    const newProjects = user.projects.filter((x: Project) => x.id !== id);
+    setUser((prevState) => ({
+      token: prevState.token,
+      user: prevState.user,
+      projects: newProjects,
+    }));
   };
 
   return (
@@ -49,6 +74,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
               </Title>
             </Col>
             <Col style={{ paddingLeft: 32 }}>
+              <Button
+                icon={<DeleteOutlined />}
+                danger
+                style={{ marginRight: 8 }}
+                onClick={HandleDeleteClick}
+              />
               <Button
                 icon={<ShareAltOutlined />}
                 onClick={() => showModal(true)}

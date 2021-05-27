@@ -17,6 +17,14 @@ interface ProjectResponse {
   };
 }
 
+interface DeleteProjectResponse {
+  data: {
+    ok: boolean;
+    err?: string;
+    message: string;
+  };
+}
+
 interface NewProjectForm {
   name: string;
 }

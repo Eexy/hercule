@@ -52,6 +52,13 @@ const NewProjectModal: React.FC<NewProjectModalProps> = ({
         user: prevState.user,
         projects: [...prevState.projects, project],
       }));
+
+      const result = await ipcRenderer.invoke(
+        'new project',
+        project.repoName,
+        project.githubUrl
+      );
+      console.log(result);
     }
   };
 

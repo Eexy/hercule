@@ -6,9 +6,12 @@ import { UserContext } from '../../context/user-context';
 import Dashboard from './parts/dashboard/dashboard';
 import NewProjectModal from './parts/sidebar/add-project/new-project-modal';
 import Screen from '../../components/screen';
+import { ProjectContext } from '../../context/project-context';
+import NoProjectScreen from './parts/no-project-screen/no-project-screen';
 
 const Home: React.FC = (): ReactElement => {
   const { user } = useContext(UserContext);
+  const { project } = useContext(ProjectContext);
   const [isModalVisible, setIsModaleVisible] = useState(false);
 
   if (user.token === '') {
@@ -25,7 +28,7 @@ const Home: React.FC = (): ReactElement => {
           />
         </Col>
         <Col flex="auto" style={{ height: '100%' }}>
-          <Dashboard />
+          {project.id === '' ? <NoProjectScreen /> : <Dashboard />}
         </Col>
       </Row>
       <NewProjectModal
