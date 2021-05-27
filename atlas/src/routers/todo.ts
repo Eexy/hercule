@@ -13,8 +13,8 @@ router.get('/api/project/:id/todos', auth, async (req, res) => {
     if (!todos) {
       throw new Error('Unable to find todos');
     }
-
-    return res.send({ ok: true, todos });
+    const todosObj = todos.map((todo) => todo.toObject());
+    return res.send({ ok: true, todos: todosObj });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
@@ -28,7 +28,7 @@ router.post('/api/project/:id/todo', auth, async (req, res) => {
     });
 
     await todo.save();
-    return res.send({ ok: true, todo });
+    return res.send({ ok: true, todo: todo.toObject() });
   } catch (e) {
     return res.send({ ok: false, err: e.message });
   }
@@ -51,7 +51,7 @@ router.patch('/api/todo/:id', auth, async (req, res) => {
       throw new Error('Unable to find todo to update');
     }
 
-    if (req.body.completed) {
+    if (req.body.completed !== undefined) {
       todo.completed = req.body.completed;
     }
 

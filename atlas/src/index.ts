@@ -6,6 +6,7 @@ import cors from 'cors';
 import userRouter from './routers/user';
 import projectRouter from './routers/project';
 import channelRouter from './routers/channel';
+import todoRouter from './routers/todo';
 import './io';
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(userRouter);
 app.use(projectRouter);
 app.use(channelRouter);
+app.use(todoRouter);
 
 app.get('/', (_, res) => {
   res.send('Hello World');

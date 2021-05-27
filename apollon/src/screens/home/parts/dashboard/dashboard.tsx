@@ -6,6 +6,7 @@ import Screen from '../../../../components/screen';
 import CommitsPanel from './commits/commits-panel';
 import MessagesPanel from './messages/messages-panel';
 import getUsers from '../../../../services/get-users';
+import TodosPanel from './todo/todos-panel';
 
 const Dashboard: React.FC = (): ReactElement => {
   const { project } = useContext(ProjectContext);
@@ -33,7 +34,7 @@ const Dashboard: React.FC = (): ReactElement => {
           </Col>
         )}
         <Col style={{ height: '100%', flex: 1 }}>
-          {dashboardPanel === 'messages' ? <MessagesPanel /> : <CommitsPanel />}
+          {dashboardPanel === 'messages' ? <MessagesPanel /> : <TodosPanel />}
         </Col>
       </Row>
     </Screen>

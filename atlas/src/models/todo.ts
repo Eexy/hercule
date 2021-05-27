@@ -24,6 +24,17 @@ const schema: Schema = new Schema(
   },
   {
     timestamps: true,
+    toObject: {
+      virtuals: true,
+      transform: (_, ret) => {
+        const obj = ret;
+        // eslint-disable-next-line no-underscore-dangle
+        obj.id = ret._id;
+        // eslint-disable-next-line no-underscore-dangle
+        delete obj._id;
+        return obj;
+      },
+    },
   }
 );
 
