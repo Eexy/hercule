@@ -8,6 +8,22 @@ import MessagesPanel from './messages/messages-panel';
 import getUsers from '../../../../services/get-users';
 import TodosPanel from './todo/todos-panel';
 
+const switchRender = (panel: string): ReactElement => {
+  switch (panel) {
+    case 'commits':
+      return <CommitsPanel />;
+      break;
+    case 'todos':
+      return <TodosPanel />;
+    case 'messages':
+      return <MessagesPanel />;
+      break;
+    default:
+      return <MessagesPanel />;
+      break;
+  }
+};
+
 const Dashboard: React.FC = (): ReactElement => {
   const { project } = useContext(ProjectContext);
   const [contributors, setContributors] = useState<User[]>([]);
@@ -34,7 +50,7 @@ const Dashboard: React.FC = (): ReactElement => {
           </Col>
         )}
         <Col style={{ height: '100%', flex: 1 }}>
-          {dashboardPanel === 'messages' ? <MessagesPanel /> : <TodosPanel />}
+          {switchRender(dashboardPanel)}
         </Col>
       </Row>
     </Screen>

@@ -3,6 +3,7 @@ import { Button, Col, Menu, Row, Space } from 'antd';
 import React, { ReactElement, useContext, useState } from 'react';
 import {
   BranchesOutlined,
+  CheckSquareOutlined,
   DeleteOutlined,
   MessageOutlined,
   ShareAltOutlined,
@@ -95,8 +96,11 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           <Menu.Item key="messages" icon={<MessageOutlined />}>
             Messages
           </Menu.Item>
-          <Menu.Item key="commit" icon={<BranchesOutlined />}>
+          <Menu.Item key="commits" icon={<BranchesOutlined />}>
             Commit
+          </Menu.Item>
+          <Menu.Item key="todos" icon={<CheckSquareOutlined />}>
+            todos
           </Menu.Item>
         </Menu>
         <ContributorsList contributors={contributors} />
